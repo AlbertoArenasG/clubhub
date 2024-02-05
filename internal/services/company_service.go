@@ -31,3 +31,24 @@ func (s *CompanyService) CreateCompany(company *models.Company) (*models.Company
 	s.logger.Infof("Company created successfully: %v", createdCompany)
 	return createdCompany, nil
 }
+
+func (s *CompanyService) UpdateCompany(id string, companyData *models.Company) (*models.Company, error) {
+	company, err := s.companyRepository.FindByID(id)
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to find company")
+		return nil, err
+	}
+
+	company.Owner = companyData.Owner
+	company.Information = companyData.Information
+	company.Franchises = companyData.Franchises
+
+	updatedCompany, err := s.companyRepository.Update(id, company)
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to update company")
+		return nil, err
+	}
+
+	s.logger.Infof("Company updated successfully: %v", updatedCompany)
+	return updatedCompany, nil
+}

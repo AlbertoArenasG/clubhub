@@ -45,11 +45,11 @@ type Company struct {
 	Franchises  []Franchise `json:"franchises" validate:"required"`
 }
 
-type CreateCompanyDTO struct {
+type PayloadCompanyDTO struct {
 	Company Company `json:"company" validate:"required"`
 }
 
-func (c *CreateCompanyDTO) Validate() error {
+func (c *PayloadCompanyDTO) Validate() error {
 	validate := validator.New()
 
 	if err := validate.Struct(c.Company); err != nil {
@@ -81,7 +81,7 @@ func (c *CreateCompanyDTO) Validate() error {
 	return nil
 }
 
-func (c *CreateCompanyDTO) ConvertDTOToModel() (models.Company, error) {
+func (c *PayloadCompanyDTO) ConvertDTOToModel() (models.Company, error) {
 	owner, err := convertOwnerDTOToModel(c.Company.Owner)
 	if err != nil {
 		return models.Company{}, err
