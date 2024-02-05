@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 
+	"github.com/AlbertoArenasG/clubhub/bootstrap"
 	"github.com/AlbertoArenasG/clubhub/internal/db"
 	"github.com/AlbertoArenasG/clubhub/internal/router"
 	"github.com/gofiber/fiber/v2"
@@ -32,11 +33,17 @@ func main() {
 
 	defer dbClient.Client().Disconnect(context.Background())
 
+	// Initialize service container
+	apiContainer := bootstrap.NewApiContainer(
+		dbClient.Collection("companies"),
+		logger,
+	)
+
 	// Create Fiber app
 	app := fiber.New()
 
 	// Define routes
-	router.SetupRoutes(app)
+	router.SetupRoutes(app, apiContainer)
 
 	// Start server
 	port := ":3000"
