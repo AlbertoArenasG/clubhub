@@ -1,6 +1,9 @@
 package dtos
 
 import (
+	"fmt"
+	"regexp"
+
 	"github.com/AlbertoArenasG/clubhub/internal/models"
 	"github.com/go-playground/validator/v10"
 )
@@ -26,7 +29,7 @@ type Owner struct {
 
 type Franchise struct {
 	Name     string   `json:"name" validate:"required"`
-	URL      string   `json:"url" validate:"required,url"`
+	URL      string   `json:"url" validate:"required"`
 	Location Location `json:"location" validate:"required"`
 }
 
@@ -48,7 +51,34 @@ type CreateCompanyDTO struct {
 
 func (c *CreateCompanyDTO) Validate() error {
 	validate := validator.New()
-	return validate.Struct(c)
+
+	if err := validate.Struct(c.Company); err != nil {
+		return err
+	}
+
+	if err := validate.Struct(c.Company.Owner); err != nil {
+		return err
+	}
+
+	if err := validate.Struct(c.Company.Information); err != nil {
+		return err
+	}
+
+	for i, franchise := range c.Company.Franchises {
+
+		if err := validate.Struct(franchise); err != nil {
+			return fmt.Errorf("franchise at index %d: %w", i, err)
+		}
+
+		url := franchise.URL
+
+		regex := regexp.MustCompile(`^(http://|https://)?([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\.)+[a-zA-Z]{2,}(/\S*)?$`)
+		if !regex.MatchString(url) {
+			return fmt.Errorf("franchise at index %d has an invalid URL: %s", i, url)
+		}
+	}
+
+	return nil
 }
 
 func (c *CreateCompanyDTO) ConvertDTOToModel() (models.Company, error) {

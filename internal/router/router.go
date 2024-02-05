@@ -2,12 +2,13 @@ package router
 
 import (
 	"github.com/AlbertoArenasG/clubhub/bootstrap"
+	"github.com/AlbertoArenasG/clubhub/middlewares"
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 )
 
 func SetupRoutes(app *fiber.App, apiContainer *bootstrap.ApiContainer) {
-	// companyHandler := apiContainer.GetCompanyHandler()
+	companyHandler := apiContainer.GetCompanyHandler()
 
 	// Health check route
 	app.Get("/health", func(c *fiber.Ctx) error {
@@ -16,5 +17,6 @@ func SetupRoutes(app *fiber.App, apiContainer *bootstrap.ApiContainer) {
 	})
 
 	// Company routes
-	// companyRouter := app.Group("/companies")
+	companyRouter := app.Group("/companies")
+	companyRouter.Post("/", middlewares.ValidateCreateCompanyDTO, companyHandler.CreateCompany)
 }
