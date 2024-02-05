@@ -2,7 +2,8 @@ package router
 
 import (
 	"github.com/AlbertoArenasG/clubhub/bootstrap"
-	"github.com/AlbertoArenasG/clubhub/middlewares"
+	"github.com/AlbertoArenasG/clubhub/internal/middlewares"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 )
