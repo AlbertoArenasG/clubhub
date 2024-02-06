@@ -7,17 +7,23 @@ import (
 )
 
 type CompanyService struct {
-	companyRepository *repositories.CompanyRepository
-	logger            *logrus.Logger
+	companyRepository         *repositories.CompanyRepository
+	hotelServerInfoRepository *repositories.HotelServerInfoRepository
+	hotelDnsInfoRepository    *repositories.HotelDnsInfoRepository
+	logger                    *logrus.Logger
 }
 
 func NewCompanyService(
 	companyRepository *repositories.CompanyRepository,
+	hotelServerInfoRepository *repositories.HotelServerInfoRepository,
+	hotelDnsInfoRepository *repositories.HotelDnsInfoRepository,
 	logger *logrus.Logger,
 ) *CompanyService {
 	return &CompanyService{
-		companyRepository: companyRepository,
-		logger:            logger,
+		companyRepository:         companyRepository,
+		hotelServerInfoRepository: hotelServerInfoRepository,
+		hotelDnsInfoRepository:    hotelDnsInfoRepository,
+		logger:                    logger,
 	}
 }
 

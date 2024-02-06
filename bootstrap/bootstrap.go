@@ -14,10 +14,14 @@ type ApiContainer struct {
 
 func NewApiContainer(
 	companyCollection *mongo.Collection,
+	hotelServerInfoCollection *mongo.Collection,
+	hotelDnsInfoCollection *mongo.Collection,
 	logger *logrus.Logger,
 ) *ApiContainer {
 	companyRepository := repositories.NewCompanyRepository(companyCollection)
-	companyService := services.NewCompanyService(companyRepository, logger)
+	hotelServerInfoRepository := repositories.NewHotelServerInfoRepository(hotelServerInfoCollection)
+	hotelDnsInfoRepository := repositories.NewHotelDnsInfoRepository(hotelDnsInfoCollection)
+	companyService := services.NewCompanyService(companyRepository, hotelServerInfoRepository, hotelDnsInfoRepository, logger)
 
 	companyHandler := handlers.NewCompanyHandler(companyService, logger)
 

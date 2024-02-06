@@ -36,6 +36,8 @@ func main() {
 	// Initialize service container
 	apiContainer := bootstrap.NewApiContainer(
 		dbClient.Collection("companies"),
+		dbClient.Collection("hotel_server_info"),
+		dbClient.Collection("hotel_dns_info"),
 		logger,
 	)
 
