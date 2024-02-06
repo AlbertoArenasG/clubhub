@@ -19,6 +19,8 @@ type HotelServerInfo struct {
 	EngineVersion   string             `json:"engineVersion" bson:"engineVersion"`
 	CriteriaVersion string             `json:"criteriaVersion" bson:"criteriaVersion"`
 	Endpoints       []Endpoint         `json:"endpoints" bson:"endpoints"`
+	CreatedAt       time.Time          `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt       time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
 type Endpoint struct {

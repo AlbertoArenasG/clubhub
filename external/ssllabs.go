@@ -22,7 +22,7 @@ func NewSSLLabsClient() *SSLLabsClient {
 
 func (c *SSLLabsClient) GetSSLInfo(url string) (map[string]interface{}, error) {
 	baseSslLabsURL := os.Getenv("SSL_LABS_BASE_URL")
-	resp, err := c.httpClient.Get(fmt.Sprintf(baseSslLabsURL, "%s", url))
+	resp, err := c.httpClient.Get(fmt.Sprintf("%s%s", baseSslLabsURL, url))
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch SSL Labs info for URL %s: %v", url, err)
 	}

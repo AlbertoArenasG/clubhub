@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	whoisparser "github.com/likexian/whois-parser"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -16,6 +18,8 @@ type HotelDnsInfo struct {
 	RegistrarName   string             `json:"registrarName" bson:"registrarName"`
 	RegistrantName  string             `json:"registrantName" bson:"registrantName"`
 	RegistrantEmail string             `json:"registrantEmail" bson:"registrantEmail"`
+	CreatedAt       time.Time          `json:"created_at,omitempty" bson:"created_at,omitempty"`
+	UpdatedAt       time.Time          `json:"updated_at,omitempty" bson:"updated_at,omitempty"`
 }
 
 func MapWhoisDataToDnsInfo(companyID primitive.ObjectID, url string, whoisData *whoisparser.WhoisInfo) *HotelDnsInfo {
