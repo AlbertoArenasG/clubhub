@@ -21,6 +21,20 @@ func NewCompanyService(
 	}
 }
 
+func (s *CompanyService) ListCompanies(limit, page int, search string, sort int) ([]models.Company, int, int, error) {
+	offset := (page - 1) * limit
+
+	companies, totalCompanies, err := s.companyRepository.List(limit, offset, search, sort)
+	if err != nil {
+		s.logger.WithError(err).Error("Failed to list companies")
+		return nil, 0, 0, err
+	}
+
+	totalPages := (totalCompanies + limit - 1) / limit
+
+	return companies, totalCompanies, totalPages, nil
+}
+
 func (s *CompanyService) CreateCompany(company *models.Company) (*models.Company, error) {
 	createdCompany, err := s.companyRepository.Create(company)
 	if err != nil {

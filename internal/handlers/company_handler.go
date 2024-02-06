@@ -22,6 +22,28 @@ func NewCompanyHandler(companyService *services.CompanyService, logger *logrus.L
 	}
 }
 
+func (ch *CompanyHandler) ListCompanies(c *fiber.Ctx) error {
+	limit := c.Locals("limit").(int)
+	page := c.Locals("page").(int)
+	sort := c.Locals("sort").(int)
+	search := c.Locals("search").(string)
+
+	companies, totalCompanies, totalPages, err := ch.companyService.ListCompanies(limit, page, search, sort)
+	if err != nil {
+		ch.logger.WithError(err).Error("Failed to list companies")
+		return c.Status(http.StatusInternalServerError).JSON(entity.NewErrorResponse("Failed to list companies"))
+	}
+
+	response := entity.NewSuccessListResponse("Companies listed successfully", companies, map[string]interface{}{
+		"current_page":  page,
+		"page_size":     limit,
+		"total_records": totalCompanies,
+		"total_pages":   totalPages,
+	})
+
+	return c.Status(http.StatusOK).JSON(response)
+}
+
 func (ch *CompanyHandler) CreateCompany(c *fiber.Ctx) error {
 	companyData, ok := c.Locals("companyData").(models.Company)
 	if !ok {

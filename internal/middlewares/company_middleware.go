@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/AlbertoArenasG/clubhub/internal/dtos"
 	"github.com/AlbertoArenasG/clubhub/internal/entity"
@@ -55,6 +56,40 @@ func ValidateUpdateCompanyDTO(c *fiber.Ctx) error {
 	}
 
 	c.Locals("companyData", companyData)
+
+	return c.Next()
+}
+
+func ValidateListCompaniesParams(c *fiber.Ctx) error {
+	defaultLimit := 10
+	maxLimit := 100
+	defaultPage := 1
+	defaultSort := 1
+
+	limit, err := strconv.Atoi(c.Query("limit"))
+	if err != nil || limit < defaultLimit {
+		limit = defaultLimit
+	}
+	if limit > maxLimit {
+		limit = maxLimit
+	}
+
+	page, err := strconv.Atoi(c.Query("page"))
+	if err != nil || page < defaultPage {
+		page = defaultPage
+	}
+
+	search := c.Query("search")
+
+	sort, err := strconv.Atoi(c.Query("sort"))
+	if err != nil || (sort != 1 && sort != -1) {
+		sort = defaultSort
+	}
+
+	c.Locals("limit", limit)
+	c.Locals("page", page)
+	c.Locals("search", search)
+	c.Locals("sort", sort)
 
 	return c.Next()
 }

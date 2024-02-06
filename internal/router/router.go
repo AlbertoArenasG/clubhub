@@ -19,6 +19,7 @@ func SetupRoutes(app *fiber.App, apiContainer *bootstrap.ApiContainer) {
 
 	// Company routes
 	companyRouter := app.Group("/companies")
+	companyRouter.Get("/", middlewares.ValidateListCompaniesParams, companyHandler.ListCompanies)
 	companyRouter.Post("/", middlewares.ValidateCreateCompanyDTO, companyHandler.CreateCompany)
 	companyRouter.Put("/:id", middlewares.ValidateUpdateCompanyDTO, companyHandler.UpdateCompany)
 }
