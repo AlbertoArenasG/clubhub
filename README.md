@@ -12,7 +12,7 @@ Backend application built on Golang with MongoDB and Fiber.
 
 ```bash
 git clone https://github.com/AlbertoArenasG/clubhub.git
-cd ecommerce-backend
+cd clubhub
 ```
 
 2. Create folder for local database data:
