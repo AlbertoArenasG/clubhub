@@ -14,7 +14,9 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/likexian/gokit v0.25.13 // indirect
 	github.com/likexian/whois v1.15.1 // indirect
+	github.com/likexian/whois-parser v1.24.10 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
